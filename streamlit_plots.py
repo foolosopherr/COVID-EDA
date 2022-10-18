@@ -7,7 +7,7 @@ import numpy as np
 import plotly.express as px
 
 def plot_streamlit_distribution(df):
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4, col5 = st.columns(5)
 
     _options_x = df.dtypes[df.dtypes != 'object'].index.to_list()
     continents = df['Continent'].unique()
@@ -27,10 +27,14 @@ def plot_streamlit_distribution(df):
     with col4:
         options_barnorm = st.selectbox(label="Barnorm:", options=_options_barnorm)
 
+    with col5:
+        options_scale_ = st.selectbox(label='Scale:', options=['Normal', 'Logarithmic'])
+        scale_ = True if options_scale_ == 'Logarithmic' else None
+
     barnorm = options_barnorm if options_barnorm != 'default' else None
     opacity = 0.5 if options_barmode == 'overlay' else 1
 
-    fig1 = px.histogram(df, x=options_x, color='Continent', 
+    fig1 = px.histogram(df, x=options_x, color='Continent', log_y=scale_,
                         nbins=int(options_bins), barmode=options_barmode,
                         title=options_x, barnorm=barnorm, opacity=opacity, height=500, width=800)
 
@@ -45,7 +49,7 @@ def plot_streamlit_distribution(df):
         scale = True if options_scale == 'Logarithmic' else None
 
     slider = st.slider('Plot height:', 500, 800, 500)
-    
+
     fig2 = px.histogram(df[df['Continent']==options_continent], log_y=scale,
                         x='Country', y=options_x, title=f'{options_x} for {options_continent}',
                         height=slider, width=800)
