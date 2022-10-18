@@ -45,7 +45,7 @@ def plot_streamlit_distribution(df):
         options_continent = st.selectbox(label='Continent:', options=continents)
 
     with _col2:
-        options_scale = st.selectbox(label='Scale:', options=['Normal', 'Logarithmic'])
+        options_scale = st.selectbox(label='Y axis scale:', options=['Normal', 'Logarithmic'])
         scale = True if options_scale == 'Logarithmic' else None
 
     slider = st.slider('Plot height:', 500, 800, 500)
